@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Container } from "react-bootstrap";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import NavBar from "./components/NavBar";
+import MoviesList from "./components/MoviesList";
+import MovieDetails from './components/MovieDetails';
+import useMovies from './Hooks/useMovies'; // Import the custom hook
 
 function App() {
+  const { movies, pageCount, getPage, search } = useMovies();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="font color-body ">
+      <NavBar search={search} />
+      <Container>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MoviesList movies={movies} getPage={getPage} pageCount={pageCount} />} />
+            <Route path="/movie/:id" element={<MovieDetails />} />
+          </Routes>
+        </BrowserRouter>
+      </Container>
     </div>
   );
 }
